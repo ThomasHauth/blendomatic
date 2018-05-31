@@ -9,6 +9,9 @@ import json
 import operation.base
 import operation.export
 
+import modifiers.base
+import modifiers.transform
+
 import os
 import glob
 import sys
@@ -28,6 +31,9 @@ def resolve_files(filesparameter):
 if __name__ == '__main__':
     operation.base.OperationBase.register(operation.export.ExportOperation)
     operations = [operation.export.ExportOperation()]
+
+    modifiers.base.ModifierBase.register(modifiers.transform.TransformModifier)
+    modifiers = [modifiers.transform.TransformModifier()]
 
     parser = argparse.ArgumentParser(
         description='Batch process Blender rendering with Python automation.')
