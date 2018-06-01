@@ -19,6 +19,10 @@ install:
   - rm -f blender.tar.bz2
   - mv blender-* blender/
 
-script:
-  - pytest --ignore=blender/
-  - blender/blender -v
+jobs:
+  include:
+    - stage: unit-test
+    - script: pytest --ignore=blender/
+    - script: blender/blender -v
+    - stage: integration-test
+    - script: ./blendomatic.py export  --filenames "test_models/*.blend"
