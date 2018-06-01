@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-# run with python3 assets/assetbuild/assetbuild.py
+#!/usr/bin/env python
 
 import luigi
 import time
