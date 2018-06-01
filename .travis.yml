@@ -20,5 +20,5 @@ install:
   - mv blender-* blender/
 
 script:
-  - pytest
+  - pytest --ignore=blender/
   - blender/blender -v
