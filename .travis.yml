@@ -22,3 +22,4 @@ install:
 script:
   - pytest --ignore=blender/
   - blender/blender -v
+  - ./blendomatic.py export  --filenames "test_models/*.blend"
