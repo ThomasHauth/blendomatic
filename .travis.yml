@@ -14,7 +14,7 @@ env:
 install:
   - pip install -r requirements.txt
   - wget ${BLENDER_DOWNLOAD}
-  - blender-*.tar.bz2 blender.tar.bz2
+  - mv blender-*.tar.bz2 blender.tar.bz2
   - tar xjf blender.tar.bz2
   - rm -f blender.tar.bz2
   - mv blender-* blender/
