@@ -14,9 +14,9 @@ env:
 install:
   - pip install -r requirements.txt
   - wget ${BLENDER_DOWNLOAD} -o blender.tar.bz2
-  - tar xjf blender-2.80-f4beb64020d-linux-glibc219-x86_64.tar.bz2
+  - tar xjf blender.tar.bz2
   - mv blender-* blender/
 
 script:
   - pytest
-  - blender -v
+  - blender/blender -v
