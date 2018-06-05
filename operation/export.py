@@ -1,4 +1,3 @@
-import abc
 import argparse
 import luigi
 import os
@@ -7,10 +6,14 @@ import subprocess
 import tempfile
 import time
 import logging
-import configparser
+
+# try import with python3 module name first
+try:
+    import configparser as configparser_import
+except ImportError:
+    import ConfigParser as configparser_import
 
 from .base import OperationBase
-
 
 class ExportTask(luigi.Task):
 
@@ -36,7 +39,7 @@ class ExportTask(luigi.Task):
         print(
             "Checking for input file-specific config {}".format(config_filename))
         if os.path.isfile(config_filename):
-            cfg_parser = configparser.ConfigParser()
+            cfg_parser = configparser_import.ConfigParser()
             cfg_parser.read(config_filename)
 
             for sec in cfg_parser.sections():
@@ -77,11 +80,10 @@ class ExportTask(luigi.Task):
 # there can be files for each blender file which overwrite certain parameters, like
 # which objects to export etc...
 
-
 class ExportOperation(OperationBase):
 
     def add_arguments(self, parser):
-        super().add_arguments(parser)
+        super(ExportOperation, self).add_arguments(parser)
 
         parser.add_argument('--format', choices=["OBJ"], default="OBJ",
                             help='The format of the exported file')

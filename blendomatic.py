@@ -28,10 +28,7 @@ def resolve_files(filesparameter):
     return glob_paths
 
 if __name__ == '__main__':
-    operation.base.OperationBase.register(operation.export.ExportOperation)
     operations = [operation.export.ExportOperation()]
-
-    modifiers.base.ModifierBase.register(modifiers.transform.TransformModifier)
     modifiers = [modifiers.transform.TransformModifier()]
 
     parser = argparse.ArgumentParser(

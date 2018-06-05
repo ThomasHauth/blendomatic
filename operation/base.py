@@ -1,8 +1,6 @@
-import abc
 import argparse
 
-
-class OperationBase(metaclass=abc.ABCMeta):
+class OperationBase(object):
 
     def add_arguments(self, parser):
         parser.add_argument('--filenames', required=True,
@@ -16,6 +14,5 @@ class OperationBase(metaclass=abc.ABCMeta):
                             help='Path to the blender executable to use',
                             default="blender")
 
-    @abc.abstractmethod
     def name(self, lbah):
         pass
