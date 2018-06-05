@@ -1,0 +1,8 @@
+[export]
+object_names=cube, some_object_more
+output_filenames=cube.obj,some_more_object.obj
+
+# or can have syntax
+# object_names=[cube, some_object_more],[single_object]
+# output_filenames=[combined.obj],[single_object.obj]
+# to put 2 objects in one .obj file and and second one in it's own file
