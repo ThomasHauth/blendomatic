@@ -18,8 +18,8 @@ from .base import OperationBase
 class ExportTask(luigi.Task):
 
     blender_filename = luigi.Parameter()
-    output_filenames = luigi.Parameter()
-    object_names = luigi.Parameter()
+    output_filenames = luigi.Parameter(default=None)
+    object_names = luigi.Parameter(default=None)
     format = luigi.Parameter()
 
     def compile_config(self):
@@ -45,11 +45,9 @@ class ExportTask(luigi.Task):
             for sec in cfg_parser.sections():
                 if sec == self.name():
                     # overwrite local settings
-                    for key in cfg_parser[sec]:
-                        val = cfg_parser[sec][key]
-                        print(
-                            "Overwriting {}.{} configuration with {} from input-file specific config file".format(sec, key, val))
-                        params[key] = cfg_parser[sec][key]
+                    for key, val in cfg_parser.items(sec):
+                        print("Overwriting {}.{} configuration with {} from input-file specific config file".format(sec, key, val))
+                        params[key] = val
         return params
 
     def run(self):
