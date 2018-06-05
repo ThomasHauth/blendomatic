@@ -75,6 +75,6 @@ pprint.pprint(jobParameter)
 
 bpy.ops.wm.open_mainfile(filepath=jobParameter["blender_filename"])
 
-export_obj(jobParameter["output_filename"], [jobParameter["object_name"]])
+export_obj(jobParameter["output_filenames"], [jobParameter["object_names"]])
 
 sys.exit(0)

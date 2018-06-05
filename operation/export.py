@@ -64,12 +64,12 @@ class ExportTask(luigi.Task):
 
             # we have to generate a json file (or a python file with the
             # parameters)
-            # subprocess.check_call(["blender",
-            #                      "--background",
-            #                       "--python",
-            #                       os.path.abspath(
-            #                       "operation/export_blender.py"),
-            #                       "jobParameterFile=" + job_json.name])
+            subprocess.check_call(["blender",
+                                   "--background",
+                                   "--python",
+                                   os.path.abspath(
+                                   "operation/export_blender.py"),
+                                   "jobParameterFile=" + job_json.name])
 
     def output(self):
         config = self.compile_config()
