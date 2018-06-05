@@ -1,18 +1,32 @@
 import re
+import json
 
-def parse_list_string( list_string):
-    # is this a list at all ?
-    if "[" not in list_string:
-        # wrap an addtional list to have the same structure as we have
-        # with multiple lists in one line
-        out_list = []
-        for e in list_string.split(","):
-            # put each entry in their own lists
-            out_list.append([e.strip()])
-        return out_list
+def parse_list_string(list_string):
 
-    entries = [s.strip("[").strip("]").split(",") for s in re.findall("\[[\w\s,\.]*\]", list_string)]
-    return [[e.strip() for e in l] for l in entries]
+    list_string = "[{}]".format(list_string.strip())
+
+    # add double quotes to make the list json parse-able
+    list_string = re.sub("\s*\,\s*", '","', list_string )
+    list_string = re.sub("\s*\[\s*", '["', list_string )
+    list_string = re.sub("\s*\]\s*", '"]', list_string )
+
+    # treat special cases, where we inserted quotes between two brackets
+    list_string = re.sub("\s*\,\s*\"\s*\[", ',[', list_string )
+    list_string = re.sub("\]\s*\"\s*\,\s*", '],', list_string )
+    list_string = re.sub("\[\s*\"\s*\[", '[[', list_string )
+    list_string = re.sub("\]\s*\"\s*\]", ']]', list_string )
+
+    jimport = json.loads(list_string)
+
+    # make sure every entry is wrapped in a list
+    wrapped_list = []
+    for entry in jimport:
+        if isinstance(entry, (list,)):
+            wrapped_list.append(entry)
+        else:
+            wrapped_list.append([entry])
+
+    return wrapped_list
 
 def map_inputs_to_ouputs(*args):
     """
