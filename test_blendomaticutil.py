@@ -15,6 +15,12 @@ class TestUtils(unittest.TestCase):
         obj_list = blendomaticutil.parse_list_string(input_objects)
         self.assertEqual(obj_list, [["obj1"], ["obj2"]])
 
+        # does combined also work ?
+        input_objects = "obj1, obj2, [       obj3 , obj4 ]"
+        obj_list = blendomaticutil.parse_list_string(input_objects)
+        self.assertEqual(obj_list, [["obj1"], ["obj2"], ["obj3", "obj4"]])
+
+
     def test_input_output_mapping(self):
         input_objects = "[obj1, obj2]"
         output_files = "out.obj"

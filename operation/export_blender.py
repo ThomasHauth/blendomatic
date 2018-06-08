@@ -4,19 +4,9 @@ import sys
 import json
 import pprint
 
-image_output_folder = "/home/poseidon/dev/locky/assets/images/"
-
-# export
-# ~/apps/blender-2.79-linux-glibc219-x86_64/blender --background --python bexport.py action=export exportObjects=lock outputFileName=/home/poseidon/dev/locky/assets/models/padlock1.obj inputFileName=/home/poseidon/dev/locky/assets/models/padlock1.blend
-#
-# baking
-# ~/apps/blender-2.79-linux-glibc219-x86_64/blender --background --python bexport.py action=bake bakeTextureFileName=/home/poseidon/dev/locky/assets/models/baked.png inputFileName=/home/poseidon/dev/locky/assets/models/debugbox.blend objectToBake=Cube
-
-
 def unselect_all():
     for obj in bpy.data.objects:
         obj.select = False
-
 
 def export_obj(obj_filename, objs_to_export):
 
@@ -50,9 +40,6 @@ bakeTextureFileName = None
 objectToBake = None
 action = None
 
-print (sys.argv)
-
-
 jobParameterFile = None
 
 for a in sys.argv:
@@ -63,7 +50,6 @@ for a in sys.argv:
 
 if jobParameterFile is None:
     print ("No jobParameterFile provided, exiting.")
-
     sys.exit(1)
 
 # read in job parameters
@@ -75,7 +61,9 @@ pprint.pprint(jobParameter)
 
 bpy.ops.wm.open_mainfile(filepath=jobParameter["blender_filename"])
 
-for params in zip(jobParameter["output_filenames"], jobParameter["object_names"]):
-    export_obj(params[0], params[1])
+assert (len(jobParameter["output_filenames"]) == len(jobParameter["object_names"]))
+
+for i in range(len(jobParameter["output_filenames"])):
+    export_obj(jobParameter["output_filenames"][i][0], jobParameter["object_names"][i])
 
 sys.exit(0)

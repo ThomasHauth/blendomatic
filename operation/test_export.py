@@ -22,9 +22,9 @@ class TestExportTask(unittest.TestCase):
 
         objfilename = blendfilename + ".obj"
         extask = export.ExportTask(blender_filename=blendfilename,
-                                   output_filenames=objfilename,
+                                   output_filenames=[[objfilename]],
                                    format="OBJ",
-                                   object_names="Cube")
+                                   object_names=[["Cube"]])
         extask.run()
 
         # check if file exists

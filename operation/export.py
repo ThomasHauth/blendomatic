@@ -1,11 +1,8 @@
-import argparse
 import luigi
 import os
 import json
 import subprocess
 import tempfile
-import time
-import logging
 
 # try import with python3 module name first
 try:
@@ -14,13 +11,16 @@ except ImportError:
     import ConfigParser as configparser_import
 
 from .base import OperationBase
+from blendomaticutil import  parse_list_string
 
 class ExportTask(luigi.Task):
 
     blender_filename = luigi.Parameter()
-    output_filenames = luigi.Parameter(default=None)
-    object_names = luigi.Parameter(default=None)
+    output_filenames = luigi.Parameter(default="")
+    object_names = luigi.Parameter(default="")
     format = luigi.Parameter()
+
+    parse_as_lists = ["output_filenames", "object_names"]
 
     def compile_config(self):
         """
@@ -34,7 +34,7 @@ class ExportTask(luigi.Task):
         # export luigi parameters
         params = {}
         for name, val in self.get_params():
-            params[name] = "{}".format(getattr(self, name))
+            params[name] = getattr(self, name)
 
         print(
             "Checking for input file-specific config {}".format(config_filename))
@@ -47,7 +47,12 @@ class ExportTask(luigi.Task):
                     # overwrite local settings
                     for key, val in cfg_parser.items(sec):
                         print("Overwriting {}.{} configuration with {} from input-file specific config file".format(sec, key, val))
+                        if key in self.parse_as_lists:
+                            val = parse_list_string(val)
                         params[key] = val
+
+        # expand parameters
+
         return params
 
     def run(self):
@@ -71,7 +76,7 @@ class ExportTask(luigi.Task):
 
     def output(self):
         config = self.compile_config()
-        return [luigi.LocalTarget(ofile) for ofile in config["output_filenames"].split(",")]
+        return [luigi.LocalTarget(ofile) for ofile in config["output_filenames"]]
 
     def name(self):
         return "export"
@@ -106,8 +111,8 @@ class ExportOperation(OperationBase):
 
             tasks.append(
                 ExportTask(
-                    blender_filename=os.path.abspath(input_file), output_filenames=output_filenames,
-                        format=args.format, object_names=args.object_names))
+                    blender_filename=os.path.abspath(input_file), output_filenames=[output_filenames],
+                        format=args.format, object_names=[args.object_names]))
         return tasks
 
     def name(self):

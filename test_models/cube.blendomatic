@@ -1,6 +1,6 @@
 [export]
-object_names = Cube, SecondCube
-output_filenames = first_cube.obj, second_cube.obj
+object_names = Cube, SecondCube, [Cube,SecondCube]
+output_filenames = first_cube.obj, second_cube.obj, both_cubes.obj
 
 # or can have syntax
 # object_names=[cube, some_object_more],[single_object]
