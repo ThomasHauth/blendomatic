@@ -15,7 +15,7 @@ class OperationBase(object):
         parser.add_argument('--output-folder',
                             help="Folder to store the generated output files. If no parameter is given "
                             "they will be stored in the same folder as the input files.",
-                            default=None)
+                            default=".")
 
     def name(self, lbah):
         pass
