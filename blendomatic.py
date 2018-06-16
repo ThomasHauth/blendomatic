@@ -22,7 +22,7 @@ if __name__ == '__main__':
     modifiers = [modifiers.transform.TransformModifier()]
 
     parser = argparse.ArgumentParser(
-        description='Batch process Blender rendering with Python automation.')
+        description='Batch process Blender rendering and exporting with Python automation.')
     parser.add_argument('operation', help='Blender operation to run',
                         choices=[o.name() for o in operations])
     # operation: export, render, blah
