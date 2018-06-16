@@ -47,7 +47,6 @@ outputFileName = None
 inputFileName = None
 bakeTextureFileName = None
 objectToBake = None
-action = None
 
 jobParameterFile = None
 
