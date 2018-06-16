@@ -1,6 +1,6 @@
 import unittest
 
-import export
+from . import export
 import os.path
 import tempfile
 import shutil
