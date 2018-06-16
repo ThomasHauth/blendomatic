@@ -23,12 +23,13 @@ class TestExportTask(unittest.TestCase):
         objfilename = blendfilename + ".obj"
         extask = export.ExportTask(blender_filename=blendfilename,
                                    output_filenames=[[objfilename]],
+                                   output_folder=tmpfolder,
                                    format="OBJ",
                                    object_names=[["Cube"]])
         extask.run()
 
         # check if file exists
-        self.assertTrue(os.path.isfile(objfilename))
+        self.assertTrue(os.path.isfile(os.path.join(tmpfolder, objfilename)))
 
         shutil.rmtree(tmpfolder)
 
