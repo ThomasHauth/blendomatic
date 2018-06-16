@@ -40,14 +40,6 @@ def export_obj(output_folder, obj_filename, objs_to_export):
                              group_by_material=False, keep_vertex_order=False,
                              global_scale=1, path_mode='AUTO')
 
-
-# extract parameters for extraction
-exportObjects = None
-outputFileName = None
-inputFileName = None
-bakeTextureFileName = None
-objectToBake = None
-
 jobParameterFile = None
 
 for a in sys.argv:
