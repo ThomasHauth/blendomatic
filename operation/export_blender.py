@@ -26,7 +26,7 @@ def export_obj(output_folder, obj_filename, objs_to_export):
             print("Object {} selected for export".format(obj))
 
     output_file_path = os.path.join(output_folder, os.path.basename(obj_filename))
-    # call export
+    # call export with a lot of parameters we did not provide yet to the user
     bpy.ops.export_scene.obj(filepath=output_file_path, check_existing=False,
                              axis_forward='-Z', axis_up='Y',
                              filter_glob="*.obj;*.mtl",
