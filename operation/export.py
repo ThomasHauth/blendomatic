@@ -113,10 +113,10 @@ class ExportOperation(OperationBase):
                 output_filenames = "{}.{}".format(
                     fname_ext[0], args.format.lower())
 
-        tasks.append(
-                ExportTask(
-                    blender_filename=os.path.abspath(input_file), output_filenames=[[output_filenames]],
-                        format=args.format, object_names=[[args.object_names]]))
+            tasks.append(
+                    ExportTask(
+                        blender_filename=os.path.abspath(input_file), output_filenames=[[output_filenames]],
+                            format=args.format, object_names=[[args.object_names]]))
         return tasks
 
 
