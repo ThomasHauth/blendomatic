@@ -8,7 +8,7 @@ def unselect_all():
     for obj in bpy.data.objects:
         obj.select = False
 
-def export_obj(obj_filename, objs_to_export):
+def export_obj(output_folder, obj_filename, objs_to_export):
 
     unselect_all()
 
@@ -25,8 +25,9 @@ def export_obj(obj_filename, objs_to_export):
             obj.select = True
             print("Object {} selected for export".format(obj))
 
+    output_file_path = os.path.join(output_folder, os.path.basename(obj_filename))
     # call export
-    bpy.ops.export_scene.obj(filepath=obj_filename, check_existing=False,
+    bpy.ops.export_scene.obj(filepath=output_file_path, check_existing=False,
                              axis_forward='-Z', axis_up='Y',
                              filter_glob="*.obj;*.mtl",
                              use_selection=True, use_animation=False,
@@ -69,9 +70,11 @@ pprint.pprint(jobParameter)
 
 bpy.ops.wm.open_mainfile(filepath=jobParameter["blender_filename"])
 
+output_folder = jobParameter["output_folder"]
+
 assert (len(jobParameter["output_filenames"]) == len(jobParameter["object_names"]))
 
 for i in range(len(jobParameter["output_filenames"])):
-    export_obj(jobParameter["output_filenames"][i][0], jobParameter["object_names"][i])
+    export_obj(output_folder, jobParameter["output_filenames"][i][0], jobParameter["object_names"][i])
 
 sys.exit(0)

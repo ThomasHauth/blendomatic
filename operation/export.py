@@ -22,6 +22,8 @@ class ExportTask(luigi.Task):
     # nested list, because every object output file can have multiple object_names to
     # be contained in this output file
     object_names = luigi.ListParameter(default=[])
+
+    output_folder = luigi.Parameter(default=".")
     format = luigi.Parameter()
 
     parse_as_lists = ["output_filenames", "object_names"]
@@ -81,7 +83,7 @@ class ExportTask(luigi.Task):
     def output(self):
         config = self.compile_config()
         # nested list
-        return [[luigi.LocalTarget(nested_file) for nested_file in ofile] for ofile in config["output_filenames"]]
+        return [[luigi.LocalTarget( os.path.join(self.output_folder, os.path.basename(nested_file))) for nested_file in ofile] for ofile in config["output_filenames"]]
 
     def name(self):
         return "export"
@@ -116,6 +118,7 @@ class ExportOperation(OperationBase):
             tasks.append(
                     ExportTask(
                         blender_filename=os.path.abspath(input_file), output_filenames=[[output_filenames]],
+                            output_folder=args.output_folder,
                             format=args.format, object_names=[[args.object_names]]))
         return tasks
 
