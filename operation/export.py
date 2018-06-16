@@ -99,7 +99,7 @@ class ExportOperation(OperationBase):
                             help='Name of the outfile, if not set the input file name'
                             'will be used with the correct extension.')
         parser.add_argument('--object-names', default="",
-                            help='Name of the object to export. If no name given, all '
+                            help='Name of the object to export. If no name is given, all '
                             'objects in the file will be exported.')
 
     def generate_tasks(self, args, files, modifiers=[]):
