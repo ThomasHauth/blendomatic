@@ -42,7 +42,6 @@ class TestExportTask(unittest.TestCase):
         blendomaticfilename = os.path.join(tmpfolder, os.path.split(self.get_test_blendomatic_config())[1])
         shutil.copy( self.get_test_blendomatic_config(), blendomaticfilename )
 
-        objfilename = blendfilename + ".obj"
         extask = export.ExportTask(blender_filename=blendfilename,
                                    format="OBJ")
         extask.run()
