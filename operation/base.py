@@ -1,4 +1,3 @@
-import argparse
 
 class OperationBase(object):
 
@@ -13,6 +12,10 @@ class OperationBase(object):
         parser.add_argument('--blender-executable',
                             help='Path to the blender executable to use',
                             default="blender")
+        parser.add_argument('--output-folder',
+                            help="Folder to store the generated output files. If no parameter is given "
+                            "they will be stored in the same folder as the input files.",
+                            default=None)
 
     def name(self, lbah):
         pass
