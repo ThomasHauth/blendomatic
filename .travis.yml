@@ -9,7 +9,8 @@ os:
 # test for multiple blender versions
 env:
   - BLENDER_VERSION=blender-2.79b BLENDER_DOWNLOAD=https://www.blend4web.com/blender/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2
-  - BLENDER_VERSION=blender-2.80 BLENDER_DOWNLOAD=https://builder.blender.org/download//blender-2.80-35efa1d3d33-linux-glibc219-x86_64.tar.bz2
+# blender 2.8 build downloads don't have stable names, skip this for now
+#  - BLENDER_VERSION=blender-2.80 BLENDER_DOWNLOAD=https://builder.blender.org/download//blender-2.80-35efa1d3d33-linux-glibc219-x86_64.tar.bz2
 
 install:
   - pip install -r requirements.txt
