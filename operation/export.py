@@ -16,8 +16,12 @@ from blendomaticutil import  parse_list_string
 class ExportTask(luigi.Task):
 
     blender_filename = luigi.Parameter()
-    output_filenames = luigi.Parameter(default="")
-    object_names = luigi.Parameter(default="")
+    # nested list, because every object output file can have multiple object_names to
+    # be contained in this output file
+    output_filenames = luigi.ListParameter(default=[])
+    # nested list, because every object output file can have multiple object_names to
+    # be contained in this output file
+    object_names = luigi.ListParameter(default=[])
     format = luigi.Parameter()
 
     parse_as_lists = ["output_filenames", "object_names"]
@@ -76,7 +80,8 @@ class ExportTask(luigi.Task):
 
     def output(self):
         config = self.compile_config()
-        return [luigi.LocalTarget(ofile) for ofile in config["output_filenames"]]
+        # nested list
+        return [[luigi.LocalTarget(nested_file) for nested_file in ofile] for ofile in config["output_filenames"]]
 
     def name(self):
         return "export"
@@ -94,11 +99,10 @@ class ExportOperation(OperationBase):
                             help='Name of the outfile, if not set the input file name'
                             'will be used with the correct extension.')
         parser.add_argument('--object-names', default="",
-                            help='Name of the object to export. If no name given, the '
-                            'first object in the file will be exported.')
+                            help='Name of the object to export. If no name given, all '
+                            'objects in the file will be exported.')
 
     def generate_tasks(self, args, files, modifiers=[]):
-
         tasks = []
         for input_file in files:
 
@@ -109,11 +113,12 @@ class ExportOperation(OperationBase):
                 output_filenames = "{}.{}".format(
                     fname_ext[0], args.format.lower())
 
-            tasks.append(
+        tasks.append(
                 ExportTask(
-                    blender_filename=os.path.abspath(input_file), output_filenames=[output_filenames],
-                        format=args.format, object_names=[args.object_names]))
+                    blender_filename=os.path.abspath(input_file), output_filenames=[[output_filenames]],
+                        format=args.format, object_names=[[args.object_names]]))
         return tasks
+
 
     def name(self):
         return "export"

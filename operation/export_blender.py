@@ -11,11 +11,19 @@ def unselect_all():
 def export_obj(obj_filename, objs_to_export):
 
     unselect_all()
-    for obj in objs_to_export:
-        o = bpy.data.objects[obj]
-        # select all objects used for export
-        o.select = True
-        print(o)
+
+    if len(objs_to_export) == 1 and objs_to_export[0] == "":
+        # if no objects have been selected, export everything
+        for obj in bpy.data.objects:
+            obj.select = True
+            print("Object {} selected for export".format(obj))
+    else:
+        # specific objects selected
+        for obj_name in objs_to_export:
+            obj = bpy.data.objects[obj_name]
+            # select all objects used for export
+            obj.select = True
+            print("Object {} selected for export".format(obj))
 
     # call export
     bpy.ops.export_scene.obj(filepath=obj_filename, check_existing=False,
