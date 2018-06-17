@@ -4,26 +4,17 @@ import sys
 import json
 import pprint
 
-def unselect_all():
-    for obj in bpy.data.objects:
-        obj.select = False
+
+# add the path to this file as the python path so we can
+# import additional python code
+blendomatic_python_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(blendomatic_python_path)
+
+import blenderutil
 
 def export_obj(output_folder, obj_filename, objs_to_export):
 
-    unselect_all()
-
-    if len(objs_to_export) == 1 and objs_to_export[0] == "":
-        # if no objects have been selected, export everything
-        for obj in bpy.data.objects:
-            obj.select = True
-            print("Object {} selected for export".format(obj))
-    else:
-        # specific objects selected
-        for obj_name in objs_to_export:
-            obj = bpy.data.objects[obj_name]
-            # select all objects used for export
-            obj.select = True
-            print("Object {} selected for export".format(obj))
+    blenderutil.select_objects(objs_to_export)
 
     output_file_path = os.path.join(output_folder, os.path.basename(obj_filename))
     # call export with a lot of parameters we did not provide yet to the user
@@ -40,27 +31,9 @@ def export_obj(output_folder, obj_filename, objs_to_export):
                              group_by_material=False, keep_vertex_order=False,
                              global_scale=1, path_mode='AUTO')
 
-jobParameterFile = None
-
-for a in sys.argv:
-    splitted = a.split("=")
-    if len(splitted) > 1:
-        if splitted[0] == "jobParameterFile":
-            jobParameterFile = splitted[1]
-
-if jobParameterFile is None:
-    print ("No jobParameterFile provided, exiting.")
-    sys.exit(1)
-
-# read in job parameters
-with open(jobParameterFile, "r") as parameter_file:
-    jobParameter = json.load(parameter_file)
-
-print("Got job parameters:")
-pprint.pprint(jobParameter)
+jobParameter = blenderutil.parse_jobinput()
 
 bpy.ops.wm.open_mainfile(filepath=jobParameter["blender_filename"])
-
 output_folder = jobParameter["output_folder"]
 
 assert (len(jobParameter["output_filenames"]) == len(jobParameter["object_names"]))
