@@ -23,7 +23,7 @@ class ExportTask(luigi.Task):
     # be contained in this output file
     object_names = luigi.ListParameter(default=[])
 
-    output_folder = luigi.Parameter(default=".")
+    output_folder = luigi.Parameter(default="")
     format = luigi.Parameter()
 
     parse_as_lists = ["output_filenames", "object_names"]
@@ -32,6 +32,11 @@ class ExportTask(luigi.Task):
         """
         Combines the luigi task parameters with what is configured in the .blendomatic file
         """
+
+        # if there is not output folder configured, use folder where the
+        # blend file is located
+        if self.output_folder == "":
+            self.output_folder = os.path.split(os.path.abspath(self.blender_filename))[0]
 
         # check if there is a special configuration for this input file
         config_filename = os.path.splitext(
@@ -73,11 +78,11 @@ class ExportTask(luigi.Task):
 
             # we have to generate a json file (or a python file with the
             # parameters)
+            this_python_path = os.path.dirname(os.path.realpath(__file__))
             subprocess.check_call(["blender",
                                    "--background",
                                    "--python",
-                                   os.path.abspath(
-                                   "operation/export_blender.py"),
+                                   os.path.join(this_python_path, "export_blender.py"),
                                    "jobParameterFile=" + job_json.name])
 
     def output(self):
