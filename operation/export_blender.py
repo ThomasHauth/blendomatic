@@ -1,9 +1,6 @@
 import bpy
 import os
 import sys
-import json
-import pprint
-
 
 # add the path to this file as the python path so we can
 # import additional python code

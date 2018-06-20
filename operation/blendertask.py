@@ -73,5 +73,5 @@ class BlenderTask(luigi.Task):
             subprocess.check_call(["blender",
                                    "--background",
                                    "--python",
-                                   os.path.join(this_python_path, "export_blender.py"),
+                                   os.path.join(this_python_path, self.blender_python()),
                                    "jobParameterFile=" + job_json.name])

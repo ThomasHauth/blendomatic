@@ -21,18 +21,27 @@ def select_objects(objs_to_export):
 
     unselect_all()
 
+    selected_objects = []
+
     if len(objs_to_export) == 1 and objs_to_export[0] == "":
         # if no objects have been selected, export everything
         for obj in bpy.data.objects:
             obj.select = True
+            selected_objects.append(obj)
             print("Object {} selected for export".format(obj))
     else:
         # specific objects selected
         for obj_name in objs_to_export:
+            if obj_name not in bpy.data.objects:
+                print ("Object named {} does not exist in blendfile".format(obj_name))
+                continue
             obj = bpy.data.objects[obj_name]
             # select all objects used for export
             obj.select = True
+            selected_objects.append(obj)
             print("Object {} selected for export".format(obj))
+
+    return selected_objects
 
 
 def parse_jobinput():

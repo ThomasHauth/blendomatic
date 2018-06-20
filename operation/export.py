@@ -23,6 +23,10 @@ class ExportTask(blendertask.BlenderTask):
 
     def name(self):
         return "export"
+
+    def blender_python(self):
+        return "export_blender.py"
+
 # there can be files for each blender file which overwrite certain parameters, like
 # which objects to export etc...
 

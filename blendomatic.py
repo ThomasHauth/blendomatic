@@ -2,6 +2,7 @@
 
 import luigi
 import operation.export
+import operation.bake
 import modifiers.transform
 
 import sys
@@ -22,7 +23,7 @@ def resolve_files(filesparameter):
     return glob_paths
 
 if __name__ == '__main__':
-    operations = [operation.export.ExportOperation()]
+    operations = [operation.export.ExportOperation(),operation.bake.BaketOperation()]
     modifiers = [modifiers.transform.TransformModifier()]
 
     parser = argparse.ArgumentParser(

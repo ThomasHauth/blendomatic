@@ -6,3 +6,7 @@ output_filenames = first_cube.obj, second_cube.obj, both_cubes.obj
 # object_names=[cube, some_object_more],[single_object]
 # output_filenames=[combined.obj],[single_object.obj]
 # to put 2 objects in one .obj file and and second one in it's own file
+
+[bake]
+object_names = Cube
+output_filenames = CubeBake.png
