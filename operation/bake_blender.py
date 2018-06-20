@@ -33,10 +33,16 @@ def bake_texture(obj_to_bake, image_format, baked_texture_filename):
     # select all we need
     bpy.ops.object.mode_set(mode='EDIT' ,toggle=False)
     bpy.ops.mesh.select_all(action='SELECT')
+
+    #bpy.ops.uv.smart_project()
+    #bpy.ops.uv.select_all(action='SELECT')
+
     obj.select = True
     bpy.context.scene.objects.active = obj
     bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
     # bpy.data.screens['UV Editing'].areas[1].spaces[0].image = img
+
+
 
     currentImageName = "new_bake"
     bake_target = bpy.data.images.new(name=currentImageName, width=1024, height=1024)
@@ -46,12 +52,13 @@ def bake_texture(obj_to_bake, image_format, baked_texture_filename):
     print("Target {}".format(bake_target))
 
     # Specify the bake type
-    bpy.data.scenes["Scene"].render.bake_type = "TEXTURE"
+    bpy.data.scenes["Scene"].render.bake_type = "FULL" #"TEXTURE"
 
     for uv in obj.data.uv_textures:
         print (uv)
     obj.data.uv_textures[0].active = True
 
+    bpy.ops.object.mode_set(mode='OBJECT')
     # Set the target image
     for d in obj.data.uv_textures[0].data:
         d.image = bake_target
@@ -86,4 +93,6 @@ for i in range(len(jobParameter["output_filenames"])):
                     jobParameter["output_filenames"][i][0]) == False:
         sys.exit(1)
 
+
+bpy.ops.wm.save_as_mainfile(filepath="after_bake.blend")
 sys.exit(0)
