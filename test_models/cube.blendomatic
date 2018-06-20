@@ -9,4 +9,4 @@ output_filenames = first_cube.obj, second_cube.obj, both_cubes.obj
 
 [bake]
 object_names = Cube
-output_filenames = CubeBake.png
+output_filenames = cube_bake.png

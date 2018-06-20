@@ -65,17 +65,11 @@ def bake_texture(obj_to_bake, image_format, baked_texture_filename):
 
     try:
         # bake() uses cycles, bake_image() the blender renderer ....
-        bpy.ops.object.bake_image() #( save_mode="EXTERNAL", filepath="deine-mutter.png")#type="COMBINED", save_mode="EXTERNAL", filepath="deine-mutter.png")
+        bpy.ops.object.bake_image()
     except RuntimeError as re:
         print ("Runtime Error {}".format(re))
         print ("Object {} cannot be baked, because not properly setup".format(obj_to_bake))
         return
-
-    #if baked_texture_filename is None:
-    #    # auto-generate:
-    #    img_fname = os.path.basename(os.path.abspath(img.filepath_raw)).split(".")
-    #    img_fname_bake = img_fname[0] + "-bake." + img_fname[1]
-    #    baked_texture_filename = image_output_folder + img_fname_bake
 
     bake_target.save()
 

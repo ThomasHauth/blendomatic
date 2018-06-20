@@ -85,7 +85,16 @@ class BlendomaticIntegration(IntegrationTest):
             self.assertFileExists(os.path.join( tmpfolder, "second_cube.obj"))
             self.assertFileExists(os.path.join( tmpfolder, "both_cubes.obj"))
 
+    def test_bake(self):
+        mainfile = os.path.abspath("blendomatic.py")
 
+        with TempTestFolder() as tmpfolder:
+            subprocess.check_call([mainfile, "bake", "--filenames", "{}/cube.blend".format(tmpfolder),
+                                   "--output-folder", str(tmpfolder)])
+
+            # check if the output files have been generated
+            # baked render of the cube
+            self.assertFileExists(os.path.join( tmpfolder, "cube_bake.png"))
 
 
     def test_output_same_folder_as_blend_file(self):
