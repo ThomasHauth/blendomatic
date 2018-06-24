@@ -16,6 +16,8 @@ class BakeTask(blendertask.BlenderTask):
     output_folder = luigi.Parameter(default="")
     image_format = luigi.Parameter()
 
+    render_engine = luigi.Parameter(default="blender-render")
+
     def output(self):
         config = self.compile_config()
         # nested list
@@ -42,6 +44,9 @@ class BaketOperation(OperationBase):
                             'will be used with the correct extension.')
         parser.add_argument('--object-names', default="",
                             help='Name of the objects to bake.')
+        parser.add_argument('--render-engine', choices=["blender-render", "cycles"], default="blender-render",
+                            help='Render engine to use for baking. Ensure the materials are properly setup '
+                            'for the engine you select.')
 
     def generate_tasks(self, args, files, modifiers=[]):
         tasks = []

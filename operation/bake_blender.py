@@ -9,7 +9,16 @@ sys.path.append(blendomatic_python_path)
 
 import blenderutil
 
-def bake_texture(obj_to_bake, image_format, baked_texture_filename):
+def bake_texture(obj_to_bake, image_format, baked_texture_filename, render_engine):
+
+    # select correct render engine 'BLENDER_RENDER', 'CYCLES'
+    if render_engine == "blender-render":
+        bpy.context.scene.render.engine = 'BLENDER_RENDER'
+    elif render_engine == "cycles":
+        bpy.context.scene.render.engine = 'CYCLES'
+    else:
+        print ("Render engine {} not supported for baking".format(render_engine))
+        return False
 
     obj = blenderutil.select_objects([obj_to_bake])[0]
     bpy.ops.object.mode_set(mode='OBJECT')
@@ -42,8 +51,6 @@ def bake_texture(obj_to_bake, image_format, baked_texture_filename):
     bpy.ops.object.mode_set(mode='OBJECT', toggle=False)
     # bpy.data.screens['UV Editing'].areas[1].spaces[0].image = img
 
-
-
     currentImageName = "new_bake"
     bake_target = bpy.data.images.new(name=currentImageName, width=1024, height=1024)
     bake_target.filepath_raw = baked_texture_filename
@@ -65,7 +72,11 @@ def bake_texture(obj_to_bake, image_format, baked_texture_filename):
 
     try:
         # bake() uses cycles, bake_image() the blender renderer ....
-        bpy.ops.object.bake_image()
+        if render_engine == "blender-render":
+            bpy.ops.object.bake_image()
+        elif render_engine == "cycles":
+            bpy.ops.object.bake()
+
     except RuntimeError as re:
         print ("Runtime Error {}".format(re))
         print ("Object {} cannot be baked, because not properly setup".format(obj_to_bake))
@@ -84,7 +95,8 @@ for i in range(len(jobParameter["output_filenames"])):
     # we only support baking one object atm.
     if bake_texture(jobParameter["object_names"][i][0],
                     jobParameter["image_format"],
-                    jobParameter["output_filenames"][i][0]) == False:
+                    jobParameter["output_filenames"][i][0],
+                    jobParameter["render_engine"]) == False:
         sys.exit(1)
 
 
