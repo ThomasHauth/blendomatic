@@ -16,9 +16,9 @@ def resolve_files(filesparameter):
     # flatten nested list
     # only python => 3.5 supports recursive globs
     if (sys.version_info[0] >= 3) and (sys.version_info[1] >= 5):
-        glob_paths = sum([glob.iglob(p, recursive=True) for p in paths], [])
+        glob_paths = sum(list([glob.iglob(p, recursive=True) for p in paths]), [])
     else:
-        glob_paths = sum([glob.glob(p) for p in paths], [])
+        glob_paths = sum(list([glob.glob(p) for p in paths]), [])
 
     return glob_paths
 
