@@ -48,7 +48,7 @@ class TestExportTask(unittest.TestCase):
         extask.run()
 
         # check if file exists
-        self.assertTrue(os.path.isfile("first_cube.obj"))
-        self.assertTrue(os.path.isfile("second_cube.obj"))
+        self.assertTrue(os.path.isfile(os.path.join(tmpfolder,"first_cube.obj")))
+        self.assertTrue(os.path.isfile(os.path.join(tmpfolder,"second_cube.obj")))
 
         shutil.rmtree(tmpfolder)
