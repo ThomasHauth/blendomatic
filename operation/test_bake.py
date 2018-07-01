@@ -6,7 +6,7 @@ import tempfile
 import shutil
 import subprocess
 
-from testsupport import TempTestFolder
+from testsupport import TempTestFolder, compare_image_file
 
 
 class TestBakeTask(unittest.TestCase):
@@ -38,8 +38,8 @@ class TestBakeTask(unittest.TestCase):
             baketask.run()
 
             # check if file exists
-            print (bakefilename)
             self.assertTrue(os.path.isfile(bakefilename))
+            self.assertTrue(compare_image_file(bakefilename, tmpfolder.get_bakereference_filename()))
 
 
     def test_bake_cycles_single_object(self):
@@ -59,3 +59,4 @@ class TestBakeTask(unittest.TestCase):
 
             # check if file exists
             self.assertTrue(os.path.isfile(bakefilename))
+            #compare_image_file(bakefilename, tmpfolder.get_bakecyclesreference_filename())
