@@ -16,6 +16,9 @@ class OperationBase(object):
                             help="Folder to store the generated output files. If no parameter is given "
                             "they will be stored in the same folder as the input files.",
                             default="")
+        parser.add_argument('--ignore-blendomatic-files',
+                            help="Ignore any fo the settings in .blendomatic files",
+                            action='store_true', default=False)
 
     def name(self, lbah):
         pass

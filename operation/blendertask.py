@@ -16,6 +16,7 @@ from blendomaticutil import  parse_list_string
 class BlenderTask(luigi.Task):
 
     blender_filename = luigi.Parameter()
+    ignore_blendomatic_files = luigi.BoolParameter(default=False)
 
     parse_as_lists = ["output_filenames", "object_names"]
 
@@ -40,7 +41,7 @@ class BlenderTask(luigi.Task):
 
         print(
             "Checking for input file-specific config {}".format(config_filename))
-        if os.path.isfile(config_filename):
+        if os.path.isfile(config_filename) and self.ignore_blendomatic_files is False:
             cfg_parser = configparser_import.ConfigParser()
             cfg_parser.read(config_filename)
 

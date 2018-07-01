@@ -4,6 +4,10 @@ from . import bake
 import os.path
 import tempfile
 import shutil
+import subprocess
+
+from testsupport import TempTestFolder
+
 
 class TestBakeTask(unittest.TestCase):
 
@@ -13,23 +17,45 @@ class TestBakeTask(unittest.TestCase):
     def get_test_blendomatic_config(self):
         return os.path.abspath("test_models/cube.blendomatic")
 
+    def get_test_bake_reference(self):
+        return os.path.abspath("test_models/cube_bake-reference.png")
+
     def test_bake_single_object(self):
-        tmpfolder = tempfile.mkdtemp()
 
         # place testfile
-        blendfilename = os.path.join(tmpfolder, os.path.split(self.get_test_blendfile())[1])
-        shutil.copy( self.get_test_blendfile(), blendfilename )
+        #blendfilename = os.path.join(tmpfolder, os.path.split(self.get_test_blendfile())[1])
+        #shutil.copy( self.get_test_blendfile(), blendfilename )
 
-        bakefilename = blendfilename + ".png"
-        baketask = bake.BakeTask(blender_filename=blendfilename,
-                               output_filenames=[[bakefilename]],
-                               output_folder=tmpfolder,
-                               image_format="PNG",
-                               object_names=[["Cube"]])
-        baketask.run()
+        with TempTestFolder() as tmpfolder:
 
-        # check if file exists
-        self.assertTrue(os.path.isfile(os.path.join(tmpfolder, bakefilename)))
+            bakefilename = os.path.abspath(tmpfolder.get_cube_blend_filename() + ".png")
+            baketask = bake.BakeTask(blender_filename=tmpfolder.get_cube_blend_filename(),
+                                   output_filenames=[[bakefilename]],
+                                   output_folder=tmpfolder.get_tempfolder(),
+                                   image_format="PNG",
+                                   object_names=[["Cube"]],
+                                   ignore_blendomatic_files=True)
+            baketask.run()
 
-        shutil.rmtree(tmpfolder)
+            # check if file exists
+            print (bakefilename)
+            self.assertTrue(os.path.isfile(bakefilename))
 
+
+    def test_bake_cycles_single_object(self):
+        with TempTestFolder() as tmpfolder:
+            # place testfile
+            blendfilename = os.path.join(tmpfolder.get_tempfolder(), os.path.split(self.get_test_blendfile())[1])
+
+            bakefilename = blendfilename + ".png"
+            baketask = bake.BakeTask(blender_filename=blendfilename,
+                                   output_filenames=[[bakefilename]],
+                                   output_folder=tmpfolder.get_tempfolder(),
+                                   image_format="PNG",
+                                   object_names=[["Cube"]],
+                                   render_engine="cycles",
+                                   ignore_blendomatic_files=True)
+            baketask.run()
+
+            # check if file exists
+            self.assertTrue(os.path.isfile(bakefilename))
