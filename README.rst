@@ -16,7 +16,7 @@ configured to be part of the asset pipeline of your game or other media project.
 operations on blend files and you can modify them or provide custom operations required by your project. Here is
 an example how blenomatic exports objects from all blend files in one folder::
 
-    blendomatic.py export --format 3DS --filenames "test_models/\*.blend"
+    blendomatic.py export --format 3DS --filenames "test_models/*.blend"
 
 Installation instructions
 =========================
