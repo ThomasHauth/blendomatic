@@ -24,5 +24,6 @@ script:
   # add blender to path
   - export PATH=${PATH}:${PWD}/blender/
   - pytest --ignore=blender/
+  - sphinx-build doc builddir
   - blender/blender -v
   - ./blendomatic.py export  --filenames "test_models/*.blend"
