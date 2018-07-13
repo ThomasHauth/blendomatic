@@ -23,7 +23,7 @@ def resolve_files(filesparameter):
     return glob_paths
 
 if __name__ == '__main__':
-    operations = [operation.export.ExportOperation(),operation.bake.BaketOperation()]
+    operations = [operation.export.ExportOperation(), operation.bake.BakeOperation()]
     modifiers = [modifiers.transform.TransformModifier()]
 
     parser = argparse.ArgumentParser(

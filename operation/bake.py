@@ -32,10 +32,13 @@ class BakeTask(blendertask.BlenderTask):
 # there can be files for each blender file which overwrite certain parameters, like
 # which objects to export etc...
 
-class BaketOperation(OperationBase):
+class BakeOperation(OperationBase):
+    """
+    Bake textures of objects and store them into image files.
+    """
 
     def add_arguments(self, parser):
-        super(BaketOperation, self).add_arguments(parser)
+        super(BakeOperation, self).add_arguments(parser)
 
         parser.add_argument('--image-format', choices=["PNG","JPEG"], default="PNG",
                             help='The format of the baked image file')
