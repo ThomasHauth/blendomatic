@@ -27,3 +27,5 @@ script:
   - sphinx-build doc builddir
   - blender/blender -v
   - ./blendomatic.py export  --filenames "test_models/*.blend"
+  # test setup script
+  - python setup.py build
