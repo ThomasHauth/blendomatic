@@ -11,6 +11,7 @@ Welcome to blendomatic's documentation!
    :caption: Contents:
 
    introduction_include
+   operations
 
 
 Indices and tables

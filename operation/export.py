@@ -31,6 +31,15 @@ class ExportTask(blendertask.BlenderTask):
 # which objects to export etc...
 
 class ExportOperation(OperationBase):
+    """
+    Export one ore more objects from blender files to various other files formats.
+
+    Use via the command line::
+
+        ./blendomatic.py export --format 3DS --filenames "test_models/*.blend"
+
+    Supported parameters: TODO
+    """
 
     def add_arguments(self, parser):
         super(ExportOperation, self).add_arguments(parser)
